@@ -122,9 +122,9 @@ foreach ($users as $username => $user) {
             if ($row->c[0]->v < $thisMonday) {
                 $previousWeekTime += $row->c[1]->v;
             } else {
-                $thisWeekTime                       += $row->c[1]->v;
-                $dayOfWeek                          = date('N', strtotime($row->c[0]->v));
-                $thisWeekTimePerDay[$dayOfWeek - 1] += ['value' => $row->c[1]->v + $thisWeekTimePerDay[$dayOfWeek - 1]['value']];
+                $thisWeekTime                     += $row->c[1]->v;
+                $dayOfWeek                        = date('N', strtotime($row->c[0]->v));
+                $thisWeekTimePerDay[$dayOfWeek-1] = ['value' => $row->c[1]->v + $thisWeekTimePerDay[$dayOfWeek-1]['value']];
             }
         }
     }
