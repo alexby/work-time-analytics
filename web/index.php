@@ -1,4 +1,11 @@
 <?php
+use Symfony\Component\Yaml\Yaml;
+
+date_default_timezone_set('UTC');
+
+require __DIR__ . '/../vendor/autoload.php';
+define('DEBUG_MODE', false);
+
 
 function GetTogglCurrentTimeMs($apiToken)
 {
@@ -56,13 +63,6 @@ function ConvertMilisecondsToHours(int $timeInMs = null)
 {
     return $timeInMs/1000/60/60;
 }
-
-use Symfony\Component\Yaml\Yaml;
-
-date_default_timezone_set('UTC');
-
-require __DIR__ . '/../vendor/autoload.php';
-define('DEBUG_MODE', false);
 
 
 $config = Yaml::parseFile(__DIR__.'/../config/config.yml');
@@ -153,7 +153,8 @@ foreach ($users as $username => $user) {
 
         for ($i=0; $i < 7; $i++) {
             $dayTimeMs = $weeklyReport->week_totals[$i];
-            if (($i+1) == date('w')){
+            // Using "(6 + date('w')) % 7" in the next line because date('w') returns day of week: 0 (for Sunday) through 6 (for Saturday)
+            if ( $i == ( (6 + date('w')) % 7) ){
                 //add currently running time entry to the corresponding day of week
                 $dayTimeMs = $dayTimeMs + $currentlyRunningTimeMs;
             }
