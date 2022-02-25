@@ -1,14 +1,19 @@
-FROM php:7.1-fpm
+FROM php:7.4-fpm
 
 RUN apt-get update && apt-get install -y \
     git \
     libmcrypt-dev \
     zlib1g-dev \
+    libzip-dev \
     libssl-dev
 
-RUN docker-php-ext-install \
-    mcrypt \
-    zip
+#mcrypt
+RUN pecl install mcrypt
+RUN docker-php-ext-enable mcrypt
+
+#mcrypt
+RUN pecl install zip
+RUN docker-php-ext-enable mcrypt
 
 #xdebug
 RUN pecl install xdebug
@@ -19,7 +24,7 @@ RUN sed -i '1 a xdebug.remote_connect_back=1' /usr/local/etc/php/conf.d/docker-p
 
 #oauth
 RUN apt-get install -y libpcre3 libpcre3-dev
-RUN pecl install oauth-2.0.2 \
-    && docker-php-ext-enable oauth
+RUN pecl install oauth
+RUN docker-php-ext-enable oauth
 
 WORKDIR /app
