@@ -9,7 +9,7 @@ define('DEBUG_MODE', false);
 
 function GetTogglCurrentTimeMs($apiToken)
 {
-    $url = 'https://toggl.com/api/v8/time_entries/current';
+    $url = 'https://api.track.toggl.com/api/v8/time_entries/current';
 
     $opts = array(
         'http'=>array(
@@ -40,7 +40,7 @@ function GetTogglCurrentTimeMs($apiToken)
 
 function GetTogglWeeklyReport($userAgent, $workspaceId, $apiToken, $startDate)
 {
-    $url = 'https://toggl.com/reports/api/v2/weekly?';
+    $url = 'https://api.track.toggl.com/reports/api/v2/weekly?';
 
     $queryParameters[] = 'user_agent='.$userAgent;
     $queryParameters[] = 'workspace_id='.$workspaceId;
@@ -70,7 +70,7 @@ $users = $config['users'];
 
 $previousWeekData = [];
 $thisWeekData = [];
-$thisWeeDailyData = [];
+$thisWeekDailyData = [];
 $userLabels = [];
 $upworkThisWeekData = [];
 $togglThisWeekData = [];
@@ -173,7 +173,7 @@ foreach ($users as $username => $user) {
         'color' => $color
     ];
 
-    $thisWeeDailyData[] = [
+    $thisWeekDailyData[] = [
         'seriesname' => $user['name'],
         'data' => $thisWeekTimePerDay,
         'color' => $color
@@ -203,6 +203,6 @@ $twig = new Twig_Environment($loader);
 echo $twig->render('index.html.twig', array(
     'previousWeekData' => $previousWeekData,
     'thisWeekData' => $thisWeekData,
-    'thisWeeDailyData' => $thisWeeDailyData,
+    'thisWeekDailyData' => $thisWeekDailyData,
     'userLabels' => $userLabels,
 ));
